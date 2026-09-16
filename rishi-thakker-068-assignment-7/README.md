@@ -14,7 +14,7 @@ Simple REST API made with Node.js + Express. Data is stored in JSON files (no da
 | POST | /api/auth/register | Register new user | `{"username","email","password"}` |
 | POST | /api/auth/login | Login user | `{"email","password"}` |
 | POST | /api/auth/logout | Logout user | - |
-| GET | /api/products | Get all products (supports ?category, ?minPrice, ?maxPrice, ?inStock, ?sort) | - |
+| GET | /api/products | Get all products | - |
 | GET | /api/products/:id | Get single product | - |
 | POST | /api/products | Add new product | `{"name","category","price","stock","rating"}` |
 | PUT | /api/products/:id | Update product | `{"price","stock"}` |
