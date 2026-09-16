@@ -1,17 +1,11 @@
+# Name - Rishi Thakker
+# Roll No. - 150096725068
+# Cohort - Sam Altman
+
 # Assignment 07 - E-Commerce Product & Cart API
 
 Simple REST API made with Node.js + Express. Data is stored in JSON files (no database used, as per assignment).
 
-## How to run
-
-```
-npm install
-npm run dev
-```
-
-Server runs on `http://localhost:3000`
-
-Note: cart routes need login first (uses sessions/cookies), so use Postman to test - it handles cookies automatically.
 
 ## API Endpoints
 
