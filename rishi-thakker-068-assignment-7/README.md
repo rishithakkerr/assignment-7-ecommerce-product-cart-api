@@ -1,68 +1,39 @@
-# 🛒 E-Commerce Product & Shopping Cart API
+# Assignment 07 - E-Commerce Product & Cart API
 
-A simple, file-based (JSON storage) REST API built with Node.js and Express — no database required.
+Simple REST API made with Node.js + Express. Data is stored in JSON files (no database used, as per assignment).
 
-## Setup
+## How to run
 
-```bash
+```
 npm install
-cp .env.example .env
-npm run dev      # nodemon, auto-restarts on changes
-# or
-npm start        # plain node
+npm run dev
 ```
 
-Server runs at `http://localhost:3000`.
+Server runs on `http://localhost:3000`
 
-## Auth flow
+Note: cart routes need login first (uses sessions/cookies), so use Postman to test - it handles cookies automatically.
 
-This API uses cookie-based sessions (`express-session`). Use a client that persists
-cookies between requests — e.g. **Postman** (cookie jar is automatic) or `curl -c/-b`.
+## API Endpoints
 
-```bash
-# Register
-curl -X POST http://localhost:3000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"username":"alex","email":"alex@shop.com","password":"password123"}'
+| Method | Endpoint | Description | Body |
+|---|---|---|---|
+| POST | /api/auth/register | Register new user | `{"username","email","password"}` |
+| POST | /api/auth/login | Login user | `{"email","password"}` |
+| POST | /api/auth/logout | Logout user | - |
+| GET | /api/products | Get all products (supports ?category, ?minPrice, ?maxPrice, ?inStock, ?sort) | - |
+| GET | /api/products/:id | Get single product | - |
+| POST | /api/products | Add new product | `{"name","category","price","stock","rating"}` |
+| PUT | /api/products/:id | Update product | `{"price","stock"}` |
+| DELETE | /api/products/:id | Delete product | - |
+| GET | /api/cart | View cart (login required) | - |
+| POST | /api/cart/items | Add item to cart (login required) | `{"productId","quantity"}` |
+| DELETE | /api/cart/items/:productId | Remove item from cart (login required) | - |
+| POST | /api/cart/checkout | Checkout cart (login required) | - |
 
-# Login (save cookies to a file)
-curl -c cookies.txt -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"alex@shop.com","password":"password123"}'
+## Test flow
 
-# Use the saved cookie for authenticated routes
-curl -b cookies.txt http://localhost:3000/api/cart
-```
-
-## Endpoints
-
-### Auth
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `POST /api/auth/logout`
-
-### Products
-- `GET /api/products` — filters: `category`, `minPrice`, `maxPrice`, `inStock=true`, `sort=price_asc|price_desc|rating_desc|newest`
-- `GET /api/products/:id`
-- `POST /api/products`
-- `PUT /api/products/:id`
-- `DELETE /api/products/:id`
-
-### Cart (requires login)
-- `GET /api/cart`
-- `POST /api/cart/items` — `{ "productId": "prod_101", "quantity": 2 }`
-- `DELETE /api/cart/items/:productId`
-- `POST /api/cart/checkout`
-
-## Data
-
-Sample products are pre-seeded in `data/products.json`. `data/users.json` and
-`data/carts.json` start empty and fill up as you register users and use the cart.
-
-## Testing checklist (matches the assignment's verification steps)
-
-1. Products are pre-seeded (5 items, multiple categories). ✅
-2. Register + login a user, confirm a session cookie is set.
-3. Try adding more of a product than is in stock → expect `400` with an
-   "Out of stock" style message.
-4. Checkout → confirm `data/products.json` stock decreases and the cart empties.
+1. Register a user
+2. Login (cookie gets saved automatically in Postman)
+3. Add product to cart
+4. Try adding more quantity than stock available -> should give error
+5. Checkout -> stock should reduce in products.json
